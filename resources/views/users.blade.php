@@ -32,6 +32,9 @@
             font-size: 32px;
             font-weight: bold;
         }
+        table tr td {
+            padding: 4px 8px;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -76,6 +79,12 @@
 
         <script>
             let usersData = [];
+            let sortDirection = {
+                name: true,
+                phone: true,
+                email: true,
+                country: true
+            };
 
             document.addEventListener('DOMContentLoaded', function () {
                 const loadUsers = (userCount = 10) => {
@@ -113,10 +122,14 @@
 
                 const sortUsers = (sortBy) => {
                     usersData.sort((a, b) => {
-                        if (a[sortBy] > b[sortBy]) return 1;
-                        if (a[sortBy] < b[sortBy]) return -1;
+                        if (a[sortBy] > b[sortBy]) return sortDirection[sortBy] ? 1 : -1;
+                        if (a[sortBy] < b[sortBy]) return sortDirection[sortBy] ? -1 : 1;
                         return 0;
                     });
+
+                    // Toggle the sorting direction for the next click
+                    sortDirection[sortBy] = !sortDirection[sortBy];
+
                     renderUsers(usersData);
                 }
 
